@@ -1,19 +1,21 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-
+import EventDetails from '../components/eventdetalis.component.vue'
+import Welcome from '../components/welcome.component.vue'
 Vue.use(VueRouter)
 
-const routes = [{
+const routes = [
+  {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Welcome',
+    component: Welcome
   },
   {
-    path: '/welcome',
-    name: 'Welcome',
-    component: () => import( /* webpackChunkName: "about" */ '../components/welcome.component.vue')
+    path:'/EventDetails',
+    name: 'EventDetails',
+    component: EventDetails
   }
+
 ]
 
 const router = new VueRouter({
