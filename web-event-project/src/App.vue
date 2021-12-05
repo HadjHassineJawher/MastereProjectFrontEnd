@@ -15,11 +15,8 @@
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" fixed temporary>
     </v-navigation-drawer>
-    <v-main>
+    <v-main class="containerBox">
       <router-view />
-    </v-main>
-    <v-main>
-      <!-- <Footer></Footer> -->
     </v-main>
   </v-app>
 </template>
@@ -33,3 +30,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.containerBox {
+  height: 100%;
+  margin-top: 80px;
+  background-color: whitesmoke;
+}
+</style>
