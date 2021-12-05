@@ -3,34 +3,33 @@
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>MPDAM Event</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        outlined
+        hide-details
+      ></v-text-field>
     </v-app-bar>
-
     <v-navigation-drawer v-model="drawer" fixed temporary>
-      <!--  -->
     </v-navigation-drawer>
     <v-main>
       <router-view />
     </v-main>
-    <!-- <v-main class="grey lighten-2">
-      <v-container>
-        <v-row>
-          <template v-for="n in 4">
-            <v-col :key="n" class="mt-2" cols="12">
-              <strong>Category {{ n }}</strong>
-            </v-col>
-
-            <v-col v-for="j in 6" :key="`${n}${j}`" cols="6" md="2">
-              <v-sheet height="150"></v-sheet>
-            </v-col>
-          </template>
-        </v-row>
-      </v-container>
-    </v-main> -->
+    <v-main>
+      <!-- <Footer></Footer> -->
+    </v-main>
   </v-app>
 </template>
 
 <script>
+import Footer from "../src/components/Footer/footer.component.vue";
 export default {
   data: () => ({ drawer: null }),
+  components: {
+    Footer,
+  },
 };
 </script>

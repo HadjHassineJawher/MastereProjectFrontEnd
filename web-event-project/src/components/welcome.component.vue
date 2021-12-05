@@ -1,19 +1,22 @@
 <template>
   <v-app>
-    <carousel></carousel>
-    <upcomingEvent></upcomingEvent>
+    <Carousel />
+    <Events title="Upcoming Events" />
+    <Events title="Open Events" />
+    <Events title="All Events" />
   </v-app>
 </template>
 <script>
-import carousel from "./carousel.component.vue";
-import upcomingEvent from "./upcomingevents.component";
+import Carousel from "./carousel.component.vue";
+import CardEvents from "./cardEvents.component.vue";
+import Events from "./events.component.vue";
 
 export default {
   name: "Welcome",
-
   components: {
-    carousel,
-    upcomingEvent,
+    Carousel,
+    CardEvents,
+    Events,
   },
 };
 </script>
