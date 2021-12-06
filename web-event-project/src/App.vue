@@ -4,14 +4,14 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>MPDAM Event</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-text-field
+      <!-- <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
         label="Search"
         single-line
         outlined
         hide-details
-      ></v-text-field>
+      ></v-text-field> -->
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" fixed temporary>
     </v-navigation-drawer>
