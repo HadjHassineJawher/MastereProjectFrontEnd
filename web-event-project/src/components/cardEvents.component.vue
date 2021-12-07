@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card height="100%">
+    <v-card height="100%" :to="href">
       <!-- <p>aaa {{ event }}</p> -->
       <v-img
         class="white--text align-end"
@@ -23,11 +23,7 @@
             <v-icon color="#119D90" class="mr-1">
               mdi-account-group-outline
             </v-icon>
-            <span class="subtitle-2 mt-5">109</span>
-          </v-row>
-          <v-spacer></v-spacer>
-          <v-row>
-            <v-btn :to="href">Test</v-btn>
+            <span class="subtitle-2 mt-5">{{ event.nb_place }}</span>
           </v-row>
         </v-list-item>
       </v-card-actions>
