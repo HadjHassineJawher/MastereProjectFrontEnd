@@ -17,10 +17,7 @@
 </template>
 <script>
 import CardEvents from "./cardEvents.component.vue";
-import eventApi from "./APIS/EventApi";
-
-import axios from "axios";
-console.log("##", eventApi.getEvents());
+import { getEvents } from "./APIS/EventApi";
 
 export default {
   name: "Events",
@@ -33,8 +30,10 @@ export default {
     CardEvents,
   },
   methods: {
-    getEvents() {
-      this.events = eventApi.getEvents();
+    getAllEvents() {
+      getEvents().then((response) => {
+        this.events = response;
+      });
     },
   },
   props: {
@@ -42,10 +41,7 @@ export default {
   },
 
   mounted() {
-    //  this.getEvents();
-    axios.get("http://localhost:4000/Api/events/").then((response) => {
-      this.events = response.data.EventsList;
-    });
+    this.getAllEvents();
   },
 };
 </script>

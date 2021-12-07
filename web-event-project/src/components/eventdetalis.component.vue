@@ -8,11 +8,13 @@
             src="https://www.kuppingercole.com/pics/2018_csls_1000x563px.png"
           >
           </v-img>
-
+          <!-- {{ planningList }}
+          {{ eventDetails.sessions[0] }} -->
           <div class="EventBox">
             <div class="EventInfo ml-8 mb-2">
               <v-card-text>
                 <div class="EventInfoTop">
+                  <h2>{{ eventDetails.name }}</h2>
                   <h3>Mon, Sep 1, 9:00 AM</h3>
                   <p class="EventDescription">
                     {{ eventDetails.description }}
@@ -25,16 +27,15 @@
 
                 <v-timeline align-top dense>
                   <v-timeline-item
-                    v-for="message in messages"
-                    :key="message.time"
-                    :color="message.color"
+                    v-for="planning in planningList"
+                    :key="planning._id"
                     small
                   >
                     <div>
                       <div class="font-weight-normal">
-                        <strong>{{ message.Time }}</strong>
+                        <strong>{{ planning.h_deb }}</strong>
                       </div>
-                      <div>{{ message.description }}</div>
+                      <div>{{ planning.description }}</div>
                     </div>
                   </v-timeline-item>
                 </v-timeline>
@@ -58,11 +59,7 @@
                 <h2>Work Experience</h2>
                 <h3>Pennsylvania Air National Guard</h3>
                 <p class="EventDescription">
-                  Ensuring all unclassified and classified systems and networks
-                  Primary base information assurance manager for all
-                  telecommunications Build and maintain client relationships
-                  with VA through positive interactions Evaluated and mitigated
-                  base noncompliance with t map
+                  {{ planning.description }}
                 </p>
               </div>
             </div>
@@ -75,8 +72,19 @@
 
 <script>
 import axios from "axios";
+import { getEventById } from "./APIS/EventApi";
+
 export default {
   data: () => ({
+    planning: "",
+    planningList: {
+      _id: "",
+      name: "",
+      description: "",
+      speakers: [],
+      h_deb: "",
+      h_fin: "",
+    },
     eventDetails: {
       _id: "",
       name: "",
@@ -85,14 +93,53 @@ export default {
       nb_place: 0,
       state: "",
     },
+    usersList: {
+      firstName: "",
+      lastName: "",
+      phone: "",
+      adresse: "",
+      email: "",
+      pwd: "",
+      profile: "",
+      status: "",
+    },
   }),
-  mounted() {
-    axios
-      .get("http://localhost:4000/Api/events/" + this.$route.params.id)
-      .then((response) => {
-        this.eventDetails = response.data.event;
-        console.log("this.eventDetails", this.eventDetails);
+  created() {
+    this.getEventById();
+    // this.getPlanningById();
+    //this.getSpeakers();
+  },
+  methods: {
+    // getAllEvents() {
+    //   axios
+    //     .get("http://localhost:4000/Api/events/" + this.$route.params.id)
+    //     .then((response) => {
+    //       this.eventDetails = response.data.event;
+    //       console.log("this.eventDetails", this.eventDetails);
+    //     });
+    // },
+    getEventById() {
+      getEventById(this.$route.params.id).then((response) => {
+        this.eventDetails = response;
       });
+    },
+    getPlanningById() {
+      axios
+        .get(
+          "http://localhost:4000/Api/sessions/" + this.eventDetails.sessions[0]
+        )
+        .then((response) => {
+          console.log("res", this.eventDetails.sessions[0]);
+          this.planningList = response.data.session;
+          console.log("this.session", this.session);
+        });
+    },
+    getSpeakers() {
+      axios.get("http://localhost:4000/Api/users").then((response) => {
+        this.usersList = response.data.UsersList;
+        //console.log("this.UsersList", this.UsersList);
+      });
+    },
   },
 };
 </script>
