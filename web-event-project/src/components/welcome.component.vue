@@ -2,8 +2,8 @@
   <v-app>
     <Carousel />
     <Events title="Upcoming Events" />
-    <!-- <Events title="Open Events" />
-    <Events title="All Events" /> -->
+    <Events title="Open Events" />
+    <Events title="All Events" />
   </v-app>
 </template>
 <script>
