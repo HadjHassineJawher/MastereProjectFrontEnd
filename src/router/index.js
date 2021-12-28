@@ -5,6 +5,7 @@ import SignIn from '../components/Authentification/signin.component.vue'
 import SignUp from '../components/Authentification/signup.component.vue'
 import Welcome from '../components/welcome.component.vue'
 import Footer from '../components/Footer/footer.component.vue'
+import addEvent from '../components/addEvent.component.vue'
 Vue.use(VueRouter)
 
 const routes = [{
@@ -29,6 +30,14 @@ const routes = [{
     path: '/Registration',
     name: 'SignUp',
     component: SignUp,
+    meta: {
+      hideNavigation: true
+    }
+  },
+  {
+    path: '/AddEvent',
+    name: 'addEvent',
+    component: addEvent,
     meta: {
       hideNavigation: true
     }
