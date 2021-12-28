@@ -4,12 +4,13 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>MPDAM Event</v-toolbar-title>
       <v-spacer></v-spacer>
-   </v-app-bar>
+    </v-app-bar>
     <v-navigation-drawer v-model="drawer" fixed temporary>
     </v-navigation-drawer>
     <v-main class="containerBox">
       <router-view />
     </v-main>
+    <Footer />
   </v-app>
 </template>
 
@@ -20,9 +21,12 @@ export default {
   components: {
     Footer,
   },
+  //***STILL ERROR IN HIDING NAV FROM THE LOGIN PAGE */
+  // mounted() {
+  //   console.log("##", this.route.meta.hideNavigation);
+  // },
 };
 </script>
 
 <style scoped>
-
 </style>

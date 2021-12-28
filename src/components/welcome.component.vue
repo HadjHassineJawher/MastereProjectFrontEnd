@@ -2,7 +2,6 @@
   <v-app>
     <Carousel />
     <Events title="Upcoming Events" />
-  
   </v-app>
 </template>
 <script>

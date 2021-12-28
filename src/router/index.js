@@ -4,10 +4,10 @@ import EventDetails from '../components/eventdetalis.component.vue'
 import SignIn from '../components/Authentification/signin.component.vue'
 import SignUp from '../components/Authentification/signup.component.vue'
 import Welcome from '../components/welcome.component.vue'
+import Footer from '../components/Footer/footer.component.vue'
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     name: 'Welcome',
     component: Welcome
@@ -15,17 +15,28 @@ const routes = [
   {
     path: '/EventDetails/:id',
     name: 'EventDetails',
-    component: EventDetails
+    component: EventDetails,
   },
   {
-    path:'/Login',
+    path: '/Login',
     name: 'SignIn',
-    component: SignIn
+    component: SignIn,
+    meta: {
+      hideNavigation: true
+    }
   },
   {
-    path:'/Registration',
+    path: '/Registration',
     name: 'SignUp',
-    component: SignUp
+    component: SignUp,
+    meta: {
+      hideNavigation: true
+    }
+  },
+  {
+    path: '/Footer',
+    name: 'Footer',
+    component: Footer
   }
 
 ]
