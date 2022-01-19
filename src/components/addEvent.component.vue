@@ -6,7 +6,7 @@
         :complete="e1 > 1"
         step="1"
       >
-        Name of step 1
+        Setting up Saission info
       </v-stepper-step>
 
       <v-divider></v-divider>
@@ -15,24 +15,23 @@
         :complete="e1 > 2"
         step="2"
       >
-        Name of step 2
+         Setting up Event Info
       </v-stepper-step>
 
-      <v-divider></v-divider>
+    
 
-      <v-stepper-step step="3">
-        Name of step 3
-      </v-stepper-step>
+    
     </v-stepper-header>
 
     <v-stepper-items>
       <v-stepper-content step="1">
-        <v-card
+        <!-- <v-card
           class="mb-12"
           color="grey lighten-1"
           height="200px"
-        ></v-card>
-
+        ></v-card> -->
+        
+        <SaissionComponent/>
         <v-btn
           color="primary"
           @click="e1 = 2"
@@ -46,17 +45,13 @@
       </v-stepper-content>
 
       <v-stepper-content step="2">
-        <v-card
-          class="mb-12"
-          color="grey lighten-1"
-          height="200px"
-        ></v-card>
+       <FormEvent/>
 
         <v-btn
           color="primary"
-          @click="e1 = 3"
+          @click="e1 = 1"
         >
-          Continue
+          Back
         </v-btn>
 
         <v-btn text>
@@ -64,7 +59,7 @@
         </v-btn>
       </v-stepper-content>
 
-      <v-stepper-content step="3">
+      <!-- <v-stepper-content step="3">
         <v-card
           class="mb-12"
           color="grey lighten-1"
@@ -81,12 +76,14 @@
         <v-btn text>
           Cancel
         </v-btn>
-      </v-stepper-content>
+      </v-stepper-content> -->
     </v-stepper-items>
   </v-stepper>
   </v-container>
 </template>
 <script>
+import FormEvent from './fromevent.component.vue'
+import SaissionComponent from './saission.event.component.vue'
   export default {
     name:"AddEvent",
     data () {
@@ -94,5 +91,9 @@
         e1: 1,
       }
     },
+    components:{
+      FormEvent,
+      SaissionComponent,
+    }
   }
 </script>
