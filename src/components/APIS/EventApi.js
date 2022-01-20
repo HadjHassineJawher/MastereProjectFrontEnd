@@ -6,7 +6,8 @@ export async function getEvents() {
             .get("http://localhost:4000/Api/events/")
             .then((response) => {
                 if (response) {
-                    resolve(response.data.EventsList)
+
+                    resolve(response.data.AllEvents)
                 }
 
             }).catch(error => {

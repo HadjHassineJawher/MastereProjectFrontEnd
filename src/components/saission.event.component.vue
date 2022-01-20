@@ -9,7 +9,7 @@
                                 v-model="menuDebut"
                                 :close-on-content-click="false"
                                 :nudge-right="40"
-                                :return-value.sync="time"
+                               
                                 transition="scale-transition"
                                 offset-y
                                 max-width="290px"
@@ -43,7 +43,7 @@
                                 v-model="menuEnd"
                                 :close-on-content-click="false"
                                 :nudge-right="40"
-                                :return-value.sync="time"
+                              
                                 transition="scale-transition"
                                 offset-y
                                 max-width="290px"
@@ -124,12 +124,15 @@
         </v-btn>
       </template>
     </v-snackbar>
+   
 </v-col>
   
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import {addSaission} from "./APIS/SaissionApi"
+
 
 export default {
     name:"SaissionComponent",
@@ -152,14 +155,18 @@ export default {
         }
     },
     methods:{
+        ...mapActions(['addId']),
         addingSaission(){
             addSaission(this.saission).then((responce=>{  
                            
                 this.saission.id=responce._id;
+                this.addId(this.saission.id);
                 this.snackbar= true;
          }))
         },
- 
+
+      
+        
     },
  
 }

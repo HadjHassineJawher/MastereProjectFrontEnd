@@ -25,13 +25,12 @@
 
     <v-stepper-items>
       <v-stepper-content step="1">
-        <!-- <v-card
-          class="mb-12"
-          color="grey lighten-1"
-          height="200px"
-        ></v-card> -->
+      
+        <div v-for="i in nbrSaission" :key="i">
+          <SaissionComponent/>
+        </div>
         
-        <SaissionComponent/>
+        
         <v-btn
           color="primary"
           @click="e1 = 2"
@@ -39,8 +38,8 @@
           Continue
         </v-btn>
 
-        <v-btn text>
-          Cancel
+        <v-btn text  @click="incrementSaission">
+          Add New Sassion
         </v-btn>
       </v-stepper-content>
 
@@ -58,42 +57,40 @@
           Cancel
         </v-btn>
       </v-stepper-content>
-
-      <!-- <v-stepper-content step="3">
-        <v-card
-          class="mb-12"
-          color="grey lighten-1"
-          height="200px"
-        ></v-card>
-
-        <v-btn
-          color="primary"
-          @click="e1 = 1"
-        >
-          Continue
-        </v-btn>
-
-        <v-btn text>
-          Cancel
-        </v-btn>
-      </v-stepper-content> -->
     </v-stepper-items>
   </v-stepper>
+  <div v-for="id in allIdSaission" :key="id">
+    {{id.id}}
+  </div>
   </v-container>
 </template>
 <script>
 import FormEvent from './fromevent.component.vue'
 import SaissionComponent from './saission.event.component.vue'
+import {mapGetters} from 'vuex'
+
   export default {
     name:"AddEvent",
+    
     data () {
       return {
         e1: 1,
+        nbrSaission:1,
       }
     },
     components:{
       FormEvent,
       SaissionComponent,
-    }
+    },
+    methods:{
+      incrementSaission(){
+        
+        this.nbrSaission++;
+         
+      }
+    },
+    computed: mapGetters(['allIdSaission'])
+    
+    
   }
 </script>

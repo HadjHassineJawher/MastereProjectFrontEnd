@@ -5,11 +5,22 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    id_saission_table:[
+ 
+    ]
   },
-  mutations: {
+  getters:{
+    allIdSaission:(state)=>state.id_saission_table
   },
   actions: {
+    addId({commit}, id){
+      commit('newId', id)
+    }
   },
+  mutations: {
+    setId:(state,newId)=>state.id_saission_table.push(newId)
+  },
+
   modules: {
   }
 })
