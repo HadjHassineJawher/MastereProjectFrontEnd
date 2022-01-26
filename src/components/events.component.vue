@@ -1,4 +1,4 @@
-<template>
+  <template>
   <v-container>
     <h1>{{ title }}</h1>
     <v-row>

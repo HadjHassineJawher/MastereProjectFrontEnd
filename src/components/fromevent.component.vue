@@ -123,6 +123,7 @@
         </v-btn>
       </template>
     </v-snackbar>
+     
 </v-container>
 
 
@@ -131,6 +132,9 @@
 import {addEvent} from "./APIS/EventApi"
     export default {
         name:"FormEvent",
+        props:{
+          sessionIdTable:[]
+        },
          data () {
           return {
            dateStart: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -147,6 +151,7 @@ import {addEvent} from "./APIS/EventApi"
               id:"",
               name:"",
               description:"",
+              sessions:[],
               date_deb:(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
               date_fin:(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
               nb_place:"",
@@ -156,11 +161,16 @@ import {addEvent} from "./APIS/EventApi"
          },
          methods:{
            addingEvent(){
+             this.event.sessions=this.sessionIdTable;
+             
              addEvent(this.event).then((response=>{
                this.event.id= response._id
                 this.snackbar= true;
              }))
-           }
+           },
+          //  getTable(){
+          //    console.log(this.sessionIdTable)
+          //  }
          }
     }
 </script>

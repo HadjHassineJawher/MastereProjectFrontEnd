@@ -27,7 +27,7 @@
       <v-stepper-content step="1">
       
         <div v-for="i in nbrSaission" :key="i">
-          <SaissionComponent/>
+          <SaissionComponent ref="saission"/>
         </div>
         
         
@@ -39,12 +39,16 @@
         </v-btn>
 
         <v-btn text  @click="incrementSaission">
-          Add New Sassion
+          Add New Session
+        </v-btn>
+
+        <v-btn text  @click="saveSession">
+          Save Session
         </v-btn>
       </v-stepper-content>
 
       <v-stepper-content step="2">
-       <FormEvent/>
+       <FormEvent :sessionIdTable=SessionIdTable />
 
         <v-btn
           color="primary"
@@ -59,15 +63,13 @@
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
-  <div v-for="id in allIdSaission" :key="id">
-    {{id.id}}
-  </div>
+  
   </v-container>
 </template>
 <script>
 import FormEvent from './fromevent.component.vue'
 import SaissionComponent from './saission.event.component.vue'
-import {mapGetters} from 'vuex'
+
 
   export default {
     name:"AddEvent",
@@ -76,6 +78,7 @@ import {mapGetters} from 'vuex'
       return {
         e1: 1,
         nbrSaission:1,
+        SessionIdTable:[]
       }
     },
     components:{
@@ -84,13 +87,16 @@ import {mapGetters} from 'vuex'
     },
     methods:{
       incrementSaission(){
-        
-        this.nbrSaission++;
-         
-      }
+         this.nbrSaission++;
+        // console.log(this.$refs.saission[0].SaissionInfo( ));
+      
+      },
+      saveSession(){
+        for(var i=0;i<this.$refs.saission.length;i++){
+          this.SessionIdTable.push(this.$refs.saission[i].SaissionInfo().id) 
+          }
+        }
     },
-    computed: mapGetters(['allIdSaission'])
-    
-    
+
   }
 </script>

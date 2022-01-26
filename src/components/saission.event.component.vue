@@ -147,6 +147,9 @@ export default {
                 h_deb:null,
                 h_fin:null
             },
+            saissionTable:[
+               
+            ],
             menuDebut: false,
             menuEnd: false,
             snackbar: false,
@@ -155,15 +158,23 @@ export default {
         }
     },
     methods:{
-        ...mapActions(['addId']),
+        
         addingSaission(){
             addSaission(this.saission).then((responce=>{  
                            
                 this.saission.id=responce._id;
-                this.addId(this.saission.id);
+                
                 this.snackbar= true;
+                console.log(this.saission)
+                this.saissionTable.push(this.saission.id);
+
+                //console.log(this.saissionTable)
          }))
         },
+         SaissionInfo(){
+             return (this.saission)
+        },
+
 
       
         
