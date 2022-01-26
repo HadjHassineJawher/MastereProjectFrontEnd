@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+
 import {addSaission} from "./APIS/SaissionApi"
 
 
@@ -160,15 +160,11 @@ export default {
     methods:{
         
         addingSaission(){
-            addSaission(this.saission).then((responce=>{  
-                           
-                this.saission.id=responce._id;
-                
+            addSaission(this.saission).then((responce=>{                        
+                this.saission.id=responce._id;              
                 this.snackbar= true;
-                console.log(this.saission)
                 this.saissionTable.push(this.saission.id);
 
-                //console.log(this.saissionTable)
          }))
         },
          SaissionInfo(){

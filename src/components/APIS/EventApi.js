@@ -19,7 +19,7 @@ export async function getEvents() {
 export async function getEventById(eventId) {
     return new Promise((resolve, reject) => {
         axios
-            .get("http://localhost:4000/Api/events/" + eventId)
+            .get("http://localhost:4000/Api/SingleEvent/" + eventId)
             .then((response) => {
                 if (response) {
                     // console.log("response.data.event", response)

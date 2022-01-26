@@ -15,7 +15,7 @@
               <v-card-text>
                 <div class="EventInfoTop">
                   <h2>{{ eventDetails.name }}</h2>
-                  <h3>Mon, Sep 1, 9:00 AM</h3>
+                  <h3>{{ eventDetails.date_deb }}</h3>
                   <p class="EventDescription">
                     {{ eventDetails.description }}
                   </p>
@@ -66,33 +66,21 @@
           </div>
         </v-card>
       </v-row>
+    
     </v-container>
   
 </template>
 
 <script>
-import axios from "axios";
+
 import { getEventById } from "./APIS/EventApi";
 
 export default {
   data: () => ({
+    eventDetails:Object,
     planning: "",
-    planningList: {
-      _id: "",
-      name: "",
-      description: "",
-      speakers: [],
-      h_deb: "",
-      h_fin: "",
-    },
-    eventDetails: {
-      _id: "",
-      name: "",
-      description: "",
-      sessions: [],
-      nb_place: 0,
-      state: "",
-    },
+    planningList: [],
+  
     usersList: {
       firstName: "",
       lastName: "",
@@ -104,35 +92,19 @@ export default {
       status: "",
     },
   }),
-  created() {
-    this.getEventById();
-   
+   methods: {
+  
+    async  getSingleEevent (){
+      this.eventDetails= await getEventById(this.$route.params.id);
+      this.planningList= this.eventDetails.sessions;
+     
+    }
   },
-  methods: {
-   
-    getEventById() {
-      getEventById(this.$route.params.id).then((response) => {
-        this.eventDetails = response;
-      });
-    },
-    getPlanningById() {
-      axios
-        .get(
-          "http://localhost:4000/Api/sessions/" + this.eventDetails.sessions[0]
-        )
-        .then((response) => {
-          console.log("res", this.eventDetails.sessions[0]);
-          this.planningList = response.data.session;
-          console.log("this.session", this.session);
-        });
-    },
-    getSpeakers() {
-      axios.get("http://localhost:4000/Api/users").then((response) => {
-        this.usersList = response.data.UsersList;
-        //console.log("this.UsersList", this.UsersList);
-      });
-    },
-  },
+ mounted(){
+    this.getSingleEevent ();
+ }
+ 
+ 
 };
 </script>
 
