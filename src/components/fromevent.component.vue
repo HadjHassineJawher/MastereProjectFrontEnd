@@ -130,6 +130,7 @@
 </template>
 <script>
 import {addEvent} from "./APIS/EventApi"
+
     export default {
         name:"FormEvent",
         props:{
@@ -168,9 +169,7 @@ import {addEvent} from "./APIS/EventApi"
                 this.snackbar= true;
              }))
            },
-          //  getTable(){
-          //    console.log(this.sessionIdTable)
-          //  }
+          
          }
     }
 </script>

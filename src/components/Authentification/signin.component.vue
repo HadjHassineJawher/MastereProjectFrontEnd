@@ -19,14 +19,14 @@
                                 lazy-validation >
                                 <h3 >Welcome</h3>
                                 <v-text-field
-                                    v-model="email"
+                                    v-model="user.Email"
                                     :rules="emailRules"
                                     label="E-mail"
                                     required
                                 ></v-text-field>
 
                                 <v-text-field
-                                    v-model="password"
+                                    v-model="user.Password"
                                     :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                                     :rules="[rules.required, rules.min]"
                                     :type="show1 ? 'text' : 'password'"
@@ -42,12 +42,21 @@
                                     color="#0A363F"
                                     class="ma-6 white--text"
                                     width="400"
-                                    @click="validate" 
+                                    @click="addingUser" 
                                     >
                                 Validate
                                 </v-btn>
 
-                             
+                               <template v-slot:action="{ attrs }">
+                                  <v-btn
+                                    color="blue"
+                                    text
+                                    v-bind="attrs"
+                                    @click="snackbar = false"
+                                  >
+                                    Close
+                                  </v-btn>
+                              </template>
                             </v-form>
                     </v-col>
                 </v-row>
@@ -60,7 +69,7 @@
     
 </template>
 <script>
-
+import {Login} from "../APIS/UserApi"
 
 export default {
   name: "SignIn",
@@ -74,14 +83,29 @@ export default {
       ],
       rules: {
           required: value => !!value || 'Required.',
-          min: v => v.length >= 8 || 'Min 8 characters',
+          min: v => v.length >= 7|| 'Min 7 characters',
           emailMatch: () => (`The email and password you entered don't match`),
         },
+       snackbar: false,
+       text_snackbar: 'Email or password incorrect',
+      user:{
+        Email:"",
+        Password:"",
+      }
     }),
 
     methods: {
-      validate () {
-        this.$refs.form.validate()
+      addingUser () {
+        //this.$refs.form.validate()
+        Login(this.user).then((responce)=>{
+          if(responce.SecretInfo){
+            console.log(responce.SecretInfo)
+            this.$router.push({ name: 'Welcome' })
+          }
+            
+        })
+     
+        
       },
    
     },
