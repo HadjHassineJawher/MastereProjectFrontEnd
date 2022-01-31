@@ -8,15 +8,32 @@ import Footer from '../components/Footer/footer.component.vue'
 import addEvent from '../components/addEvent.component.vue'
 Vue.use(VueRouter)
 
+function guardMyRoute(to, from, next) {
+  var isAuthenticated = false;
+  //this is just an example. You will have to find a better or 
+  // centralised way to handle you localstorage data handling 
+  if (localStorage.getItem('token'))
+    isAuthenticated = true;
+  else
+    isAuthenticated = false;
+  if (isAuthenticated) {
+    next(); // allow to enter route
+  } else {
+    next('/login'); // go to '/login';
+  }
+}
+
 const routes = [{
     path: '/',
     name: 'Welcome',
-    component: Welcome
+    component: Welcome,
+    beforeEnter: guardMyRoute,
   },
   {
     path: '/EventDetails/:id',
     name: 'EventDetails',
     component: EventDetails,
+    beforeEnter: guardMyRoute,
   },
   {
     path: '/Login',
@@ -38,9 +55,7 @@ const routes = [{
     path: '/AddEvent',
     name: 'addEvent',
     component: addEvent,
-    meta: {
-      hideNavigation: true
-    }
+    beforeEnter: guardMyRoute,
   },
   {
     path: '/Footer',

@@ -31,16 +31,16 @@ export async function getEventById(eventId) {
     })
 }
 
-export async function addEvent(eventObject){
-    return new Promise ((resolve,reject)=>{
-        axios.post("http://localhost:4000/Api/NewEvent",eventObject)
-        .then((response=>{
-            if(response){
-                console.log(response.data.newEvent)
-                resolve(response.data.newEvent)
-            }
-        })).catch(error=>{
-            reject(error)
-        })
+export async function addEvent(eventObject) {
+    return new Promise((resolve, reject) => {
+        axios.post("http://localhost:4000/Api/NewEvent", eventObject)
+            .then((response => {
+                if (response) {
+                    //  console.log(response.data.newEvent)
+                    resolve(response.data.newEvent)
+                }
+            })).catch(error => {
+                reject(error)
+            })
     })
 }

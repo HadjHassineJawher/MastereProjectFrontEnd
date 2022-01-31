@@ -1,7 +1,6 @@
 <template>
   <v-container>
     <v-card height="100%" @click="goToEventDetails">
-    
       <v-img
         class="white--text align-end"
         height="200px"
@@ -39,15 +38,17 @@ export default {
     return {
       href: "/EventDetails/" + this.event._id,
     };
-    
   },
-  methods:{
-     goToEventDetails(){
-      this.$router.push({name:'EventDetails', params: {id:  this.event._id}}); 
-          }
+  methods: {
+    goToEventDetails() {
+      this.$router.push({
+        name: "EventDetails",
+        params: { id: this.event._id },
+      });
+    },
   },
-  mounted(){
+  mounted() {
     console.log(this.event);
-  }
+  },
 };
 </script>
