@@ -1,12 +1,12 @@
 import {
     Login
 } from '../components/APIS/AuthApi'
-
 export default {
     state: {
         currentUser: {},
 
     },
+
     getters: {
         getCurrentUser(state) {
             return state.currentUser
@@ -24,6 +24,12 @@ export default {
             context.commit('setCurrentUser', loggedInUser.data.SecretInfo)
             return loggedInUser.data.SecretInfo
         },
+           async singleUserAction(context, user) {
+               let loggedInUser = await Login(user);
+               console.log("trying", loggedInUser.data.SecretInfo)
+               context.commit('setCurrentUser', loggedInUser.data.SecretInfo)
+               return loggedInUser.data.SecretInfo
+           },
 
         // async logout(context) {
         //     let usr = await logout()

@@ -41,7 +41,9 @@
                 >
                   Login
                 </v-btn>
-
+                <v-btn text class="ma-1" plain to="/Registration">
+                  Don't have an account yet? Register from here!
+                </v-btn>
                 <template v-slot:action="{ attrs }">
                   <v-btn
                     color="blue"
@@ -76,8 +78,6 @@
   </v-app>
 </template>
 <script>
-import { Login } from "../APIS/AuthApi";
-
 export default {
   name: "SignIn",
   data: () => ({
@@ -94,7 +94,7 @@ export default {
     ],
     rules: {
       required: (value) => !!value || "Required.",
-      min: (v) => v.length >= 7 || "Min 7 characters",
+      //  min: (v) => v.length >= 5 || "Min 5 characters",
       emailMatch: () => `The email and password you entered don't match`,
     },
     snackbar: false,
@@ -106,15 +106,6 @@ export default {
   }),
 
   methods: {
-    // Login() {
-    //   Login(this.user).then((response) => {
-    //     if (response.SecretInfo) {
-    //       console.log(response.SecretInfo);
-    //       this.$router.push({ name: "Welcome" });
-    //     }
-    //   });
-    // },
-
     Login() {
       this.$store
         .dispatch("loginAction", this.user)
@@ -128,16 +119,15 @@ export default {
         })
         .catch((error) => {
           console.log("err", error);
-          // if (error) {
-          //   this.dialog = false;
-          //   if (error.response.status === 400) {
-          //     this.error = "Error";
-          //   }
-          //   this.icon = "mdi-alert";
-          //   this.snackbarText = "Email or password incorrect!";
-          //   this.color = "red";
-          //   this.snackbar = true;
-          // }
+          if (error) {
+            if (error.response.status === 409) {
+              this.error = "Error";
+            }
+            this.icon = "mdi-alert";
+            this.snackbarText = "Email or password incorrect!";
+            this.color = "red";
+            this.snackbar = true;
+          }
         });
     },
   },

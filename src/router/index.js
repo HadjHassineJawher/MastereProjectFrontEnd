@@ -6,6 +6,7 @@ import SignUp from '../components/Authentification/signup.component.vue'
 import Welcome from '../components/welcome.component.vue'
 import Footer from '../components/Footer/footer.component.vue'
 import addEvent from '../components/addEvent.component.vue'
+import Settings from '../components/profileManagement.component.vue'
 Vue.use(VueRouter)
 
 function guardMyRoute(to, from, next) {
@@ -19,15 +20,21 @@ function guardMyRoute(to, from, next) {
   if (isAuthenticated) {
     next(); // allow to enter route
   } else {
-    next('/login'); // go to '/login';
+    next('/'); // go to '/login';
   }
 }
 
 const routes = [{
+    // path: '/',
+    // name: 'Welcome',
+    // component: Welcome,
+    // beforeEnter: guardMyRoute,
     path: '/',
-    name: 'Welcome',
-    component: Welcome,
-    beforeEnter: guardMyRoute,
+    name: 'SignIn',
+    component: SignIn,
+    meta: {
+      hideNavigation: true
+    }
   },
   {
     path: '/EventDetails/:id',
@@ -36,12 +43,10 @@ const routes = [{
     beforeEnter: guardMyRoute,
   },
   {
-    path: '/Login',
-    name: 'SignIn',
-    component: SignIn,
-    meta: {
-      hideNavigation: true
-    }
+    path: '/Welcome',
+    name: 'Welcome',
+    component: Welcome,
+    beforeEnter: guardMyRoute,
   },
   {
     path: '/Registration',
@@ -61,6 +66,11 @@ const routes = [{
     path: '/Footer',
     name: 'Footer',
     component: Footer
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: Settings
   }
 
 ]

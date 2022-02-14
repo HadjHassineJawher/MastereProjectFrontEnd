@@ -85,6 +85,9 @@
                 >
                   Register
                 </v-btn>
+                <v-btn text class="ma-1" plain to="/">
+                  Already have an account ? Login from here!
+                </v-btn>
               </v-form>
             </v-col>
           </v-row>

@@ -8,6 +8,7 @@ export async function Login(UserObject) {
             .then((response) => {
                 if (response) {
                     localStorage.setItem("token", response.data.SecretInfo.token);
+
                     console.log("svp msg backend", response.data)
                     resolve(response)
                 }
@@ -29,6 +30,24 @@ export async function Register(UserObject) {
                 }
 
             }).catch(error => {
+                reject(error)
+            })
+    })
+}
+
+export async function SingleUser() {
+    return new Promise((resolve, reject) => {
+        axios
+            .get("http://localhost:4000/Api/SingleUser/", )
+            .then((response) => {
+                if (response) {
+                    localStorage.setItem("token", response.data.SecretInfo.token);
+                    console.log("svp msg backend", response.data)
+                    resolve(response)
+                }
+
+            }).catch(error => {
+                localStorage.removeItem('token')
                 reject(error)
             })
     })
