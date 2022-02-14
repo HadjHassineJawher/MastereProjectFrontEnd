@@ -74,7 +74,7 @@
       </v-list>
       <template v-slot:append>
         <div class="pa-2">
-          <v-btn block @click="logout"> Logout </v-btn>
+          <v-btn color="green" dark block @click="logout"> Logout </v-btn>
         </div>
       </template>
     </v-navigation-drawer>
