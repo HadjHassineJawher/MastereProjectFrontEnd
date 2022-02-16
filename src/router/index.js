@@ -7,6 +7,7 @@ import Welcome from '../components/welcome.component.vue'
 import Footer from '../components/Footer/footer.component.vue'
 import addEvent from '../components/addEvent.component.vue'
 import Settings from '../components/profileManagement.component.vue'
+import Meet from '../components/meet.component.vue'
 Vue.use(VueRouter)
 
 function guardMyRoute(to, from, next) {
@@ -71,6 +72,11 @@ const routes = [{
     path: '/settings',
     name: 'Settings',
     component: Settings
+  },
+  {
+    path: '/meet/:idMeet',
+    name: 'Meet',
+    component: Meet
   }
 
 ]

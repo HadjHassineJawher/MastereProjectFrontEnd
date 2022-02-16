@@ -130,6 +130,7 @@
 </template>
 <script>
 import {addEvent} from "./APIS/EventApi"
+const { v4: uuidv4} = require('uuid')
 
     export default {
         name:"FormEvent",
@@ -152,6 +153,7 @@ import {addEvent} from "./APIS/EventApi"
               id:"",
               name:"",
               description:"",
+              room:"",
               sessions:[],
               date_deb:(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
               date_fin:(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -163,7 +165,9 @@ import {addEvent} from "./APIS/EventApi"
          methods:{
            addingEvent(){
              this.event.sessions=this.sessionIdTable;
-             
+             if(this.event.state=='Online'){
+                this.event.room=uuidv4()
+             }
              addEvent(this.event).then((response=>{
                this.event.id= response._id
                 this.snackbar= true;

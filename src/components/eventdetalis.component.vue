@@ -17,6 +17,7 @@
                 <h3>{{ format_date(eventDetails.date_deb) }}</h3>
                 <p class="EventDescription">
                   {{ eventDetails.description }}
+                 
                 </p>
               </div>
             </v-card-text>
@@ -42,7 +43,7 @@
             <div class="btnBox">
               <h5>Join us on Spetember 1st</h5>
               <v-btn elevation="3" dark color="#119D90"> Register </v-btn>
-              <v-btn elevation="3" color="#EF9440" dark> Join Now </v-btn>
+              <v-btn elevation="3" color="#EF9440" dark @click="goToMeet"> Join Now </v-btn>
             </div>
           </div>
           <div class="SpeakerInfo">
@@ -57,9 +58,7 @@
             <div class="SpeakerInfoBody">
               <h2>Work Experience</h2>
               <h3>Pennsylvania Air National Guard</h3>
-              <p class="EventDescription">
-                {{ planning.description }}
-              </p>
+            
             </div>
           </div>
         </div>
@@ -71,11 +70,11 @@
 <script>
 import { getEventById } from "./APIS/EventApi";
 import moment from "moment";
+import Meet from "./meet.component";
 
 export default {
   data: () => ({
     eventDetails: Object,
-    planning: "",
     planningList: [],
     usersList: {
       firstName: "",
@@ -91,8 +90,16 @@ export default {
   methods: {
     async getSingleEevent() {
       this.eventDetails = await getEventById(this.$route.params.id);
+      console.log("hello")
       this.planningList = this.eventDetails.sessions;
     },
+    goToMeet() {
+          this.$router.push({
+            name: "Meet",
+            params: { idMeet:this.eventDetails.room },
+          });
+        },
+
     format_date(value) {
       if (value) {
         return moment(String(value)).format("DD/MM/YYYY");
@@ -105,6 +112,7 @@ export default {
   },
   mounted() {
     this.getSingleEevent();
+    
   },
 };
 </script>
