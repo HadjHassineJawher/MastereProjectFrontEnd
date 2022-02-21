@@ -120,9 +120,8 @@ export default {
         .catch((error) => {
           console.log("err", error);
           if (error) {
-            if (error.response.status === 409) {
               this.error = "Error";
-            }
+            
             this.icon = "mdi-alert";
             this.snackbarText = "Email or password incorrect!";
             this.color = "red";
