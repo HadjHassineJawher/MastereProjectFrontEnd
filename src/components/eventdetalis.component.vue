@@ -58,7 +58,7 @@
             <div class="SpeakerInfoBody">
               <h2>Work Experience</h2>
               <h3>Pennsylvania Air National Guard</h3>
-            
+              
             </div>
           </div>
         </div>
@@ -71,8 +71,9 @@
 import { getEventById } from "./APIS/EventApi";
 import moment from "moment";
 import Meet from "./meet.component";
-
+ 
 export default {
+  
   data: () => ({
     eventDetails: Object,
     planningList: [],
