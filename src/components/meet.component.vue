@@ -60,7 +60,7 @@
 <script>
 import io from 'socket.io-client';
 import userMixin from "../mixins/user.mixin";
-const socket = io.connect("http://localhost:3031");
+const socket = io.connect("http://192.168.9.147:3031");
 const myVideo= document.createElement('video')
  myVideo.muted= true
 
@@ -93,7 +93,7 @@ export default {
     console.log(this.currentUser)
     this.videoGrid= this.$refs.video_grid
     this.ROOM_ID= this.$route.params.idMeet
-
+//sahiahsjpoamjso
     navigator.mediaDevices.getUserMedia({
     video:true,
     audio:false
