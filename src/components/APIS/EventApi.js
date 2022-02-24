@@ -3,7 +3,7 @@ import axios from 'axios'
 export async function getEvents() {
     return new Promise((resolve, reject) => {
         axios
-            .get("http://192.168.9.147:4000/Api/events/")
+            .get("https://mpdam-event-backend.herokuapp.com/Api/events/")
             .then((response) => {
                 if (response) {
 
@@ -19,7 +19,7 @@ export async function getEvents() {
 export async function getEventById(eventId) {
     return new Promise((resolve, reject) => {
         axios
-            .get("http://192.168.9.147:4000/Api/SingleEvent/" + eventId)
+            .get("https://mpdam-event-backend.herokuapp.com/Api/SingleEvent/" + eventId)
             .then((response) => {
                 if (response) {
                     // console.log("response.data.event", response)
@@ -33,7 +33,7 @@ export async function getEventById(eventId) {
 
 export async function addEvent(eventObject) {
     return new Promise((resolve, reject) => {
-        axios.post("http://192.168.9.147:4000/Api/NewEvent", eventObject)
+        axios.post("https://mpdam-event-backend.herokuapp.com/Api/NewEvent", eventObject)
             .then((response => {
                 if (response) {
                     //  console.log(response.data.newEvent)

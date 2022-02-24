@@ -4,7 +4,7 @@ export async function Login(UserObject) {
     return new Promise((resolve, reject) => {
 
         axios
-            .post("http://192.168.9.147:4000/Api/UserLogIn", UserObject)
+            .post("https://mpdam-event-backend.herokuapp.com/Api/UserLogIn", UserObject)
             .then((response) => {
                 if (response) {
                     localStorage.setItem("token", response.data.SecretInfo.token);
@@ -22,7 +22,7 @@ export async function Login(UserObject) {
 export async function Register(UserObject) {
     return new Promise((resolve, reject) => {
         axios
-            .post("http://192.168.9.147:4000/Api/NewUser", UserObject)
+            .post("https://mpdam-event-backend.herokuapp.com/Api/NewUser", UserObject)
             .then((response) => {
                 if (response) {
                     console.log("new", response.data.newUser)
@@ -38,7 +38,7 @@ export async function Register(UserObject) {
 export async function SingleUser() {
     return new Promise((resolve, reject) => {
         axios
-            .get("http://192.168.9.147:4000/Api/SingleUser/", )
+            .get("https://mpdam-event-backend.herokuapp.com/Api/SingleUser/", )
             .then((response) => {
                 if (response) {
                     localStorage.setItem("token", response.data.SecretInfo.token);

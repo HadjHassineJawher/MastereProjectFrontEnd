@@ -60,7 +60,8 @@
 <script>
 import io from 'socket.io-client';
 import userMixin from "../mixins/user.mixin";
-const socket = io.connect("http://192.168.9.147:3031");
+// const socket = io.connect("http://localhost:3031");
+const socket = io.connect("https://mpdam-stream-server.herokuapp.com/");
 const myVideo= document.createElement('video')
  myVideo.muted= true
 
