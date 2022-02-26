@@ -76,7 +76,11 @@ const routes = [{
   {
     path: '/meet/:idMeet',
     name: 'Meet',
-    component: Meet
+    component: Meet, 
+    meta: {
+      hideNavigation: true
+    }
+
   }
 
 ]

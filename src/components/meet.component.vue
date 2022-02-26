@@ -1,76 +1,64 @@
 <template>
- <div class="main">
-        <div class="main__left">
-           <div class="main__videos">
-            
-              <div id="video-grid" ref="video_grid">
-                 <h5> {{currentUser.LastName}} {{currentUser.FirstName}}</h5>
-              </div>
-           </div>
-           <div class="main__controls">
-              <div class="main__controls__block">
-                 <div  class="main__controls__button main__mute_button">
-                    <i class="fas fa-microphone"></i>
-                    <span id="muteButton">Mute</span>
-                 </div>
-                 <div  class="main__controls__button main__video_button" >
-                    <i class="fas fa-video"></i>
-                    <span id="stopVideo">Stop Video</span>
-                 </div>
-              </div>
-              <div class="main__controls__block">
-                 <div class="main__controls__button">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>Security</span>
-                 </div>
-                 <div class="main__controls__button">
-                    <i class="fas fa-user-friends"></i>
-                    <span>Participants</span>
-                 </div>
-                 <div class="main__controls__button">
-                    <i class="fas fa-comment-alt"></i>
-                    <span>Chat</span>
-                 </div>
-              </div>
-              <div class="main__controls__block">
-                 <div class="main__controls__button">
-                    <span class="leave_meeting">Leave Meeting</span>
-                 </div>
-              </div>
-           </div>
-        </div>
-        <div class="main__right">
-           <div class="main__header">
-              <h6>Chat</h6>
-           </div>
-           <div class="main__chat_window">
-              <ul class="messages">
-                 
-              </ul>
-  
-           </div>
-           <div class="main__message_container">
-              <input id="chat_message" type="text" placeholder="Type message here...">
-           </div>
-        </div>
-     </div>
+<v-row 
+class="fill-height">
+   <v-col
+      cols="9" class="video_container">
+      <v-container>
+            <v-card>
+      <div id="video-grid" ref="video_grid">
 
+            </div>
+      </v-card>
+
+
+      <div
+      id="buttons_container"
+      
+     >
+         
+               <div>
+            <v-btn x-large color="#E0E0E0" ref="mic_button" v-on:click="muteMic(myVideoStream,mic_icon)" >
+               <i  ref="mic_icon"></i>
+            </v-btn>
+         </div>
+         <div>
+            <v-btn x-large color="#80CBC4" ref="video_button" v-on:click="hideCam(myVideoStream,video_icon)">
+                  <i   ref="video_icon"></i>
+            </v-btn>
+         </div>
+         <div>
+            <v-btn  x-large color="error" ref="end_call_button" v-on:click="endCall()"> 
+               <i id="exit-icon" class="fas fa-phone-slash"></i>
+            </v-btn> 
+         </div>
+        
+         
+      </div>
+      </v-container>
+      
+   </v-col>
+   <v-col
+   cols="3" class="chat_container">
+
+     <Chat :room=ROOM_ID :username=currentUser.LastName  :socketIo=socketIo />
+   </v-col>
+</v-row>
 </template>
 
 <script>
 import io from 'socket.io-client';
 import userMixin from "../mixins/user.mixin";
-// const socket = io.connect("http://localhost:3031");
-const socket = io.connect("https://mpdam-stream-server.herokuapp.com/");
+import Chat from './chat.component.vue'
+const socket = io.connect("http://localhost:3031");
+//const socket = io.connect("https://mpdam-stream-server.herokuapp.com/");
+
+
 const myVideo= document.createElement('video')
  myVideo.muted= true
 
 
    //Create a peer 
     const peer = new Peer(undefined,{
-      // path:'/peerjs',
-      //   host:'/',
-      //   port:'3032',
       host:'peerjs-server.herokuapp.com',
       port:'443',
       secure: true,
@@ -81,23 +69,48 @@ const myVideo= document.createElement('video')
 
 export default {
    mixins: [userMixin],
-  name: "Meet",
-  data(){
-    return{
-      videoGrid:"",
-      title:"",
-      ROOM_ID:"",
-      myVideoStream:"",
-    }
-  },
+   name: "Meet",
+   data(){
+      return{
+         socketIo:"",
+         videoGrid:"",
+         title:"",
+         ROOM_ID:this.$route.params.idMeet,
+         myVideoStream:"",
+         mic_icon:"",
+         mic_button:"",
+         video_button:"",
+         video_icon:"",
+         end_call_button:"",
+      }
+   },
+   components:{
+      Chat
+   },
+  
   mounted(){
-    console.log(this.currentUser)
+   this.socketIo=socket
+  // console.log("from meet",this.socketIo)
+ 
     this.videoGrid= this.$refs.video_grid
     this.ROOM_ID= this.$route.params.idMeet
-//sahiahsjpoamjso
+    this.video_button= this.$refs.video_button
+    this.video_icon= this.$refs.video_icon
+    this.mic_icon= this.$refs.mic_icon
+    this.mic_button= this.$refs.mic_button
+    this.end_call_button= this.$refs.end_call_button
+
+    const htmlVideoElement = `<i class="fas fa-video"></i>`;
+    const htmlMicElement = `<i class="fas fa-microphone"></i>`;
+    
+    this.video_icon.innerHTML = htmlVideoElement;
+    this.mic_icon.innerHTML= htmlMicElement;
+
+   
+
     navigator.mediaDevices.getUserMedia({
     video:true,
-    audio:false
+    audio:true
     }).then(stream=>{
       this. myVideoStream = stream;
       this.addVideoStream(myVideo,stream)
@@ -116,9 +129,11 @@ export default {
       })
     })
 
+      
     peer.on('open', id => {
      socket.emit('join-room', this.ROOM_ID, id)
   })
+  
   },
   
   methods:{
@@ -136,12 +151,56 @@ export default {
         call.on('stream', userVideoStream => {
           this.addVideoStream(video, userVideoStream)
         })
+         socket.on('user-disconnected',(userId)=>{
+         video.remove()
+      })
+      
+  },
+  hideCam(myVideoStream,videoIcon){
    
-  }
+      const enabled = myVideoStream.getVideoTracks()[0].enabled;
+      if (enabled) {
+      myVideoStream.getVideoTracks()[0].enabled = false;
+      const html = `<i class="fas fa-video-slash"></i>`;
+         
+      videoIcon.innerHTML = html;
+     
+    } else {
+      myVideoStream.getVideoTracks()[0].enabled = true;
+      const html = `<i class="fas fa-video"></i>`;
+    
+     videoIcon.innerHTML = html;
+      
+    }
+  },
+  muteMic(myVideoStream,micIcon){
+    
+     const enabled = myVideoStream.getAudioTracks()[0].enabled;
+       if (enabled) {
+      myVideoStream.getAudioTracks()[0].enabled = false;
+      const html = `<i  class="fas fa-microphone-slash"></i>`;
+         
+      micIcon.innerHTML = html;
+     
+    } else {
+      myVideoStream.getAudioTracks()[0].enabled = true;
+      const html = `<i  class="fas fa-microphone"></i>`;
+    
+     micIcon.innerHTML = html;
+      
+    }
+ 
+  },
+ endCall(){
+    
+    peer.destroy()
+       socket.on('user-disconnected',(userId)=>{
+         myVideo.remove()
+      })
+    console.log(peer)
+ }
   }
 };
-
-
 
 
 </script>
@@ -158,107 +217,24 @@ export default {
            padding: 8px;
         }
 
-       .main {
-    height: 100vh;
-    display: flex;
+.chat_container{
+   border: 1px solid black;
+}
+.video_container{
+    border: 1px solid black;
 }
 
-.main__left {
-    flex: 0.8;
-    display: flex;
-    flex-direction: column;
+#buttons_container{
+   padding: 30px;
+   position: fixed;
+   display: flex;
+   justify-content: space-between;
+   bottom: 20px; 
+   /* z-index: 2;   */
+   width: 100%;
+   margin-right: 15%;
 }
 
-.main__right {
-    flex: 0.2
-}
 
-.main__videos {
-    flex-grow: 1;
-    background-color: rgb(156, 156, 156);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-}
 
-.main__controls {
-    background-color: rgba(10, 54, 63, 1);
-}
-
-.main__right {
-    background-color: rgba(10, 54, 63, 1);
-    border-left: 1px solid #3D3D42;
-}
-
-.main__controls {
-    color: #D2D2D2;
-    display: flex;
-    justify-content: space-between;
-    padding: 5px;
-}
-
-.main__controls__block {
-    display: flex;
-}
-
-.main__controls__button {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 8px 10px;
-    min-width: 80px;
-    cursor: pointer;
-}
-
-.main__controls__button:hover {
-    background-color: #343434;
-    border-radius: 5px;
-}
-
-.main__controls__button i {
-    font-size: 24px;
-}
-
-.main__right {
-    display: flex;
-    flex-direction: column;
-}
-
-.main__header {
-    padding-top: 5px;
-    color: #F5F5F5;
-    text-align: center;
-}
-
-.main__chat_window {
-    flex-grow: 1;
-    overflow-y: auto;
-}
-
-.messages{
-    color: white;
-    list-style: none;
-}
-
-.main__message_container {
-    padding: 22px 12px;
-    display: flex;
-}
-
-.main__message_container input {
-    flex-grow: 1;
-    background-color: transparent;
-    border: none;
-    color: #F5F5F5;
-}
-
-.leave_meeting {
-    color: #EB534B;
-}
-
-.unmute, .stop {
-    color: #CC3B33;
-}
      </style>
