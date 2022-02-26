@@ -49,8 +49,8 @@ class="fill-height">
 import io from 'socket.io-client';
 import userMixin from "../mixins/user.mixin";
 import Chat from './chat.component.vue'
-const socket = io.connect("http://localhost:3031");
-//const socket = io.connect("https://mpdam-stream-server.herokuapp.com/");
+//const socket = io.connect("http://localhost:3031");
+const socket = io.connect("https://mpdam-stream-server.herokuapp.com/");
 
 
 const myVideo= document.createElement('video')
