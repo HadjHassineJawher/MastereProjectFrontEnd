@@ -126,7 +126,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log("err", error);
+          
           if (error) {
             this.error = "Error";
             this.icon = "mdi-alert";

@@ -62,8 +62,7 @@ export default {
   methods: {
     incrementSaission() {
       this.nbrSaission++;
-      // console.log(this.$refs.saission[0].SaissionInfo( ));
-    },
+  },
     saveSession() {
       for (var i = 0; i < this.$refs.saission.length; i++) {
         this.SessionIdTable.push(this.$refs.saission[i].SaissionInfo().id);
