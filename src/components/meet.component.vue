@@ -9,9 +9,9 @@
         </v-col>
         <v-col cols="3" class="chat_container">
           <Chat
-            :room="ROOM_ID"
-            :username="currentUser.LastName"
-            :socketIo="socketIo"
+            :room=ROOM_ID
+            :username=currentUser.LastName
+            :socketIo=socketIo
           />
         </v-col>
       </v-row>
@@ -54,8 +54,8 @@
 import io from "socket.io-client";
 import userMixin from "../mixins/user.mixin";
 import Chat from "./chat.component.vue";
-//const socket = io.connect("http://localhost:3031");
-const socket = io.connect("https://mpdam-stream-server.herokuapp.com/");
+const socket = io.connect("http://localhost:3031");
+//const socket = io.connect("https://mpdam-stream-server.herokuapp.com/");
 
 const myVideo = document.createElement("video");
 myVideo.muted = true;
@@ -72,7 +72,7 @@ export default {
   name: "Meet",
   data() {
     return {
-      fullName: currentUser.FirstName + "" + currentUser.LastName,
+      //fullName: currentUser.FirstName + "" + currentUser.LastName,
       socketIo: "",
       videoGrid: "",
       title: "",
