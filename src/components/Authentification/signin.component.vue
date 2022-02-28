@@ -4,13 +4,13 @@
       <v-container>
         <v-card>
           <v-row align="center" justify="center">
-            <v-col cols="5">
+            <v-col cols="5" sm="5" md="5" lg="5">
               <v-img
                 class="white--text align-end"
                 src="../../assets/signinImage.svg"
               />
             </v-col>
-            <v-col cols="5">
+            <v-col cols="5" sm="5" md="5" lg="5">
               <v-form align="center" ref="form" v-model="valid" lazy-validation>
                 <h3>Welcome</h3>
                 <v-text-field
@@ -19,7 +19,6 @@
                   label="E-mail"
                   required
                 ></v-text-field>
-
                 <v-text-field
                   v-model="user.Password"
                   :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -32,17 +31,26 @@
                   @click:append="show1 = !show1"
                 ></v-text-field>
                 <v-btn
+                  block
                   text-color="white"
                   :disabled="!valid"
                   color="#0A363F"
                   class="ma-6 white--text"
-                  width="400"
+                  max-width="400"
                   @click="Login"
                 >
                   Login
                 </v-btn>
-                <v-btn text class="ma-1" plain to="/Registration">
-                  Don't have an account yet? Register from here!
+                <v-btn
+                  block
+                  text
+                  class="ma-1"
+                  plain
+                  to="/Registration"
+                  max-width="400"
+                >
+                  Don't have an account yet? <br />
+                  Register from here!
                 </v-btn>
                 <template v-slot:action="{ attrs }">
                   <v-btn
@@ -81,6 +89,7 @@
 export default {
   name: "SignIn",
   data: () => ({
+    phone: null,
     color: "success",
     snackbar: false,
     icon: "",
@@ -110,18 +119,16 @@ export default {
       this.$store
         .dispatch("loginAction", this.user)
         .then((response) => {
-          console.log("ahla b login response", response);
+          this.$store.dispatch("getCurrentUserConnect");
           this.$router.push({ name: "Welcome" });
           if (response) {
-            console.log("ahla b login response", response);
             this.$router.push({ name: "Welcome" });
           }
         })
         .catch((error) => {
           console.log("err", error);
           if (error) {
-              this.error = "Error";
-            
+            this.error = "Error";
             this.icon = "mdi-alert";
             this.snackbarText = "Email or password incorrect!";
             this.color = "red";

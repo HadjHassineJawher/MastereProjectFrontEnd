@@ -4,16 +4,15 @@
       <v-container>
         <v-card>
           <v-row align="center" justify="center">
-            <v-col cols="5">
+            <v-col cols="5" sm="5" md="5" lg="5">
               <v-img
                 class="white--text align-end"
                 src="../../assets/signupImage.svg"
               />
             </v-col>
-            <v-col cols="5">
+            <v-col cols="5" sm="5" md="5" lg="5">
               <v-form align="center" ref="form" v-model="valid" lazy-validation>
                 <h3 color="#CF6400">Join Us</h3>
-
                 <v-row>
                   <v-col cols="12" sm="6">
                     <v-text-field
@@ -33,62 +32,93 @@
                 </v-row>
 
                 <v-col cols="12" sm="12">
-                  <v-text-field
+                  <vue-tel-input-vuetify
                     v-model="phoneNumber"
                     label="Phone Number"
-                    type="number"
-                  ></v-text-field>
+                    :rules="PhoneRules"
+                    v-on:country-changed="countryChanged"
+                  ></vue-tel-input-vuetify>
                 </v-col>
                 <v-col cols="12" sm="12">
                   <v-text-field
                     v-model="address"
                     label="Home address"
                     type="text"
+                    :rules="inputRules"
                   ></v-text-field>
                 </v-col>
-                <v-text-field
-                  v-model="email"
-                  :rules="emailRules"
-                  label="E-mail"
-                  required
-                ></v-text-field>
-
-                <v-text-field
-                  v-model="password"
-                  :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                  :rules="passwordRules"
-                  :type="show1 ? 'text' : 'password'"
-                  name="password"
-                  label="Password"
-                  hint="At least 8 characters"
-                  counter
-                  @click:append="show1 = !show1"
-                ></v-text-field>
-                <v-text-field
-                  v-model="confirmPassword"
-                  :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-                  :rules="confirmPasswordRules"
-                  :type="show2 ? 'text' : 'password'"
-                  name="confirmPassword"
-                  label="Confirm Password"
-                  hint="At least 8 characters"
-                  counter
-                  @click:append="show2 = !show2"
-                ></v-text-field>
-                <v-btn
-                  text-color="white"
-                  :disabled="!valid"
-                  color="#CF6400"
-                  class="ma-6 white--text"
-                  width="400"
-                  @click="Register"
-                >
-                  Register
-                </v-btn>
-                <v-btn text class="ma-1" plain to="/">
-                  Already have an account ? Login from here!
+                <v-col cols="12" sm="12">
+                  <v-text-field
+                    v-model="email"
+                    :rules="emailRules"
+                    label="E-mail"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="12">
+                  <v-text-field
+                    v-model="password"
+                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="passwordRules"
+                    :type="show1 ? 'text' : 'password'"
+                    name="password"
+                    label="Password"
+                    hint="At least 8 characters"
+                    counter
+                    @click:append="show1 = !show1"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="12">
+                  <v-text-field
+                    v-model="confirmPassword"
+                    :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="confirmPasswordRules"
+                    :type="show2 ? 'text' : 'password'"
+                    name="confirmPassword"
+                    label="Confirm Password"
+                    hint="At least 8 characters"
+                    counter
+                    @click:append="show2 = !show2"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6" md="6" lg="12">
+                  <v-btn
+                    block
+                    text-color="white"
+                    :disabled="!valid"
+                    color="#CF6400"
+                    class="ma-6 white--text"
+                    max-width="400"
+                    @click="Register"
+                  >
+                    Register
+                  </v-btn>
+                </v-col>
+                <v-btn block text class="ma-1" plain to="/">
+                  Already have an account ? <br />
+                  Login from here!
                 </v-btn>
               </v-form>
+              <v-snackbar
+                v-model="snackbar"
+                timeout="1500"
+                color="white"
+                transition="scroll-y-transition"
+                top
+              >
+                <v-icon left class="mr-6" :color="color">{{ icon }}</v-icon>
+                <span style="color: black">{{ snackbarText }}</span>
+                <template v-slot:action="{ attrs }">
+                  <v-btn
+                    color="black"
+                    text
+                    v-bind="attrs"
+                    @click="snackbar = false"
+                  >
+                    Close
+                  </v-btn>
+                </template>
+              </v-snackbar>
             </v-col>
           </v-row>
         </v-card>
@@ -102,8 +132,12 @@ import { Register } from "../APIS/AuthApi";
 export default {
   name: "SignUp",
   data: () => ({
+    color: "success",
+    snackbar: false,
+    icon: "",
+    snackbarText: "",
     address: "",
-    phoneNumber: "",
+    phoneNumber: null,
     lastName: "",
     firstName: "",
     show1: false,
@@ -112,6 +146,7 @@ export default {
     email: "",
     password: "",
     confirmPassword: "",
+    PhoneRules: [(v) => !!v || "Phone number is required."],
     inputRules: [(v) => !!v || "This filed is required"],
     emailRules: [
       (v) => !!v || "E-mail is required",
@@ -128,12 +163,18 @@ export default {
       (v) => v.password === v.confirmePassword || "Password must match",
     ],
   }),
+
   methods: {
+    countryChanged(country) {
+      this.country = country.dialCode;
+    },
     validate() {
       this.$refs.form.validate();
     },
     Register() {
       if (this.$refs.form.validate()) {
+        this.phoneNumber = this.country + this.phoneNumber;
+
         Register({
           firstName: this.firstName,
           lastName: this.lastName,
@@ -143,13 +184,21 @@ export default {
           pwd: this.password,
           profile: "student",
           status: "active",
-        }).then((response) => {
-          this.$router.push({
-            name: "SignIn",
+        })
+          .then((response) => {
+            this.$router.push({
+              name: "SignIn",
+            });
+          })
+          .catch((error) => {
+            if (error) {
+              this.error = "Error";
+              this.icon = "mdi-alert";
+              this.snackbarText = "Email already exists!";
+              this.color = "red";
+              this.snackbar = true;
+            }
           });
-          console.log("is it me or is it ", response.newUser);
-          //this.events = response;
-        });
       }
     },
   },

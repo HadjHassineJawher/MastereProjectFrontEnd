@@ -1,46 +1,41 @@
-import {
-    Login
-} from '../components/APIS/AuthApi'
+import { Login, SingleUser } from "../components/APIS/AuthApi";
 export default {
-    state: {
-        currentUser: {},
+  state: {
+    currentUser: {},
+    user: {},
+  },
 
+  getters: {
+    getCurrentUser(state) {
+      return state.currentUser;
+    },
+    getUser(state) {
+      return state.user;
+    },
+  },
+  mutations: {
+    setCurrentUser(state, output) {
+      state.currentUser = output;
+    },
+    setUser(state, output) {
+      state.user = output;
+    },
+  },
+  actions: {
+    async getCurrentUserConnect(context) {
+      let usr = await SingleUser(localStorage.ID);
+      context.commit("setUser", usr);
+      return usr;
+    },
+    async loginAction(context, user) {
+      let usr = await Login(user);
+      context.commit("setCurrentUser", usr.data.SecretInfo);
+      return usr.data.SecretInfo;
     },
 
-    getters: {
-        getCurrentUser(state) {
-            return state.currentUser
-        }
+    async logout(context) {
+      context.commit("setCurrentUser", {});
+      return localStorage.clear();
     },
-    mutations: {
-        setCurrentUser(state, output) {
-            state.currentUser = output
-        }
-    },
-    actions: {
-        async loginAction(context, user) {
-            let loggedInUser = await Login(user);
-            console.log("trying", loggedInUser.data.SecretInfo)
-            context.commit('setCurrentUser', loggedInUser.data.SecretInfo)
-            return loggedInUser.data.SecretInfo
-        },
-           async singleUserAction(context, user) {
-               let loggedInUser = await Login(user);
-               console.log("trying", loggedInUser.data.SecretInfo)
-               context.commit('setCurrentUser', loggedInUser.data.SecretInfo)
-               return loggedInUser.data.SecretInfo
-           },
-
-        // async logout(context) {
-        //     let usr = await logout()
-        //     context.commit('setCurrentUser', {})
-        // },
-
-        async logout(context) {
-            context.commit('setCurrentUser', {})
-            return localStorage.clear();
-        }
-
-
-    }
-}
+  },
+};

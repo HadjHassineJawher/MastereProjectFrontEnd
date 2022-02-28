@@ -4,18 +4,12 @@
       <v-col cols="12" md="4" class="d-flex text-center">
         <v-card class="pt-6 mx-auto" flat>
           <v-card-text style="position: sticky; top: 35%">
-            <!-- <v-avatar size="100" color="info" class="white--text headline">
-              {{ nameAvatar(currentUser.FirstName) }}
-            </v-avatar>
-            <v-icon>mdi-pencil</v-icon> -->
-            {{ currentUser }}
             <v-badge avatar bordered overlap>
               <template v-slot:badge>
                 <v-avatar>
                   <v-icon>mdi-pencil</v-icon>
                 </v-avatar>
               </template>
-
               <v-avatar color="info" class="white--text headline">
                 {{ nameAvatar(currentUser.FirstName) }}</v-avatar
               >
@@ -67,37 +61,13 @@
                       >
                       </v-text-field>
                     </v-col>
-                    <v-btn
-                      outlined
-                      :disabled="!validPassword"
-                      color="primary"
-                      @click="updatePasswordCurrentUser"
+                    <v-btn outlined :disabled="!validPassword" color="primary"
                       >Save new password</v-btn
                     >
                   </v-form>
                 </v-card-text>
               </v-card>
             </v-expand-transition>
-            <v-snackbar
-              v-model="snackbar"
-              timeout="2000"
-              color="white"
-              transition="scroll-y-transition"
-              top
-            >
-              <v-icon left class="mr-6" :color="color">{{ icon }}</v-icon>
-              <span style="color: black">{{ snackbarText }}</span>
-              <template v-slot:action="{ attrs }">
-                <v-btn
-                  color="black"
-                  text
-                  v-bind="attrs"
-                  @click="snackbar = false"
-                >
-                  Close
-                </v-btn>
-              </template>
-            </v-snackbar>
           </v-card-text>
         </v-card>
       </v-col>
@@ -110,43 +80,57 @@
         <v-form ref="form" v-model="valid" lazy-validation>
           <v-text-field
             outlined
-            v-model="currentUser.FirstName"
+            v-model="dataUser.firstName"
             append-icon="mdi-account"
             label="First Name"
           ></v-text-field>
           <v-text-field
             outlined
-            v-model="currentUser.LastName"
+            v-model="dataUser.lastName"
             append-icon="mdi-account"
             label="Last Name"
           ></v-text-field>
-
           <v-text-field
             outlined
-            v-model="currentUser.Email"
-            append-icon="mdi-gmail"
-            type="email"
-            label="Email"
-          ></v-text-field>
-          <v-text-field
-            outlined
-            v-model="currentUser.addresse"
+            v-model="dataUser.adresse"
             append-icon="mdi-gmail"
             type="text"
             label="Address"
+          ></v-text-field>
+          <v-text-field
+            outlined
+            append-icon="mdi-phone"
+            v-model="dataUser.phone"
+            type="text"
+            label="Phone number"
           ></v-text-field>
           <v-spacer></v-spacer>
           <v-btn color="success" class="mr-4" @click="updateProfileUser">
             Save
           </v-btn>
         </v-form>
+        <v-snackbar
+          v-model="snackbar"
+          timeout="2000"
+          color="white"
+          transition="scroll-y-transition"
+          top
+        >
+          <v-icon left class="mr-6" :color="color">{{ icon }}</v-icon>
+          <span style="color: black">{{ snackbarText }}</span>
+          <template v-slot:action="{ attrs }">
+            <v-btn color="black" text v-bind="attrs" @click="snackbar = false">
+              Close
+            </v-btn>
+          </template>
+        </v-snackbar>
       </v-col>
     </v-row>
   </div>
 </template>
 <script>
 import userMixin from "../mixins/user.mixin";
-
+import axios from "axios";
 export default {
   mixins: [userMixin],
   data: () => ({
@@ -156,7 +140,12 @@ export default {
     snackbar: false,
     icon: "",
     snackbarText: "",
-    dataUser: {},
+    dataUser: {
+      firstName: "",
+      lastName: "",
+      adresse: "",
+      phone: null,
+    },
     validPassword: false,
     passCurrent: "",
     newPassword: "",
@@ -194,31 +183,52 @@ export default {
       }
     },
   },
+  created() {
+    this.$nextTick(function () {
+      this.dataUser = this.user;
+      console.log("A", this.dataUser);
+    });
+  },
   methods: {
     updateProfileUser() {
-      this.$store
-        .dispatch("updateProfileUserAction", this.dataUser)
-        .then((response) => {
-          if (response) {
-            this.v = false;
-            this.icon = "mdi-check-circle-outline";
-            this.snackbarText = "Your data got updated.";
-            this.color = "success";
-            this.snackbar = true;
-          }
-        })
-        .catch((error) => {
-          console.log("error in profile : ", error);
-          if (error) {
-            if (error.status === 400) {
-              this.error = "Error";
-            }
-            this.icon = "mdi-alert";
-            this.snackbarText = error.errors;
-            this.color = "red";
-            this.snackbar = true;
-          }
+      console.log("Aaaaaaaaaaa", this.dataUser);
+      axios
+        .patch(
+          "https://mpdam-stream-server.herokuapp.com/Api/UpdateUser/" +
+            localStorage.ID,
+          this.dataUser
+        )
+        .then((res) => {
+          console.log("Ree", res);
+          this.v = false;
+          this.icon = "mdi-check-circle-outline";
+          this.snackbarText = "Your data got updated.";
+          this.color = "success";
+          this.snackbar = true;
         });
+      // this.$store
+      //   .dispatch("updateProfileUserAction", this.dataUser)
+      //   .then((response) => {
+      //     if (response) {
+      //       this.v = false;
+      //       this.icon = "mdi-check-circle-outline";
+      //       this.snackbarText = "Your data got updated.";
+      //       this.color = "success";
+      //       this.snackbar = true;
+      //     }
+      //   })
+      //   .catch((error) => {
+      //   console.log("error in profile : ", error);
+      //   if (error) {
+      //     if (error.status === 400) {
+      //       this.error = "Error";
+      //     }
+      //     this.icon = "mdi-alert";
+      //     this.snackbarText = error.errors;
+      //     this.color = "red";
+      //     this.snackbar = true;
+      //   }
+      // });
     },
     nameAvatar(currentUserData) {
       if (currentUserData) {

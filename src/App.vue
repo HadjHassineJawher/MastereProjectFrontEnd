@@ -36,7 +36,7 @@
               >{{ currentUser.FirstName }}
               {{ currentUser.LastName }}</v-list-item-title
             >
-            <v-list-item-subtitle>Logged In</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ user.profile }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </template>
@@ -81,7 +81,7 @@
     <v-main class="containerBox">
       <router-view />
     </v-main>
-    <Footer />
+    <Footer v-if="!$route.meta.hideFooter" />
   </v-app>
 </template>
 
