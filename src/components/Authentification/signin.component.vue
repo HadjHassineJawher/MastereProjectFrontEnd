@@ -2,6 +2,18 @@
   <v-app class="background">
     <v-row align="center">
       <v-container>
+        <v-col class="text-center" v-if="PageLoading" cols="12">
+          <div>
+            <v-progress-circular
+              :size="50"
+              :width="5"
+              :active="PageLoading"
+              color="amber darken-4"
+              :indeterminate="PageLoading"
+            ></v-progress-circular>
+            <br />Loading
+          </div>
+        </v-col>
         <v-card>
           <v-row align="center" justify="center">
             <v-col cols="5" sm="5" md="5" lg="5">
@@ -89,12 +101,13 @@
 export default {
   name: "SignIn",
   data: () => ({
+    PageLoading: false,
     phone: null,
     color: "success",
     snackbar: false,
     icon: "",
     snackbarText: "",
-    show1: true,
+    show1: false,
     valid: true,
     email: "",
     emailRules: [
@@ -116,6 +129,7 @@ export default {
 
   methods: {
     Login() {
+      this.PageLoading = true;
       this.$store
         .dispatch("loginAction", this.user)
         .then((response) => {
@@ -128,6 +142,7 @@ export default {
         .catch((error) => {
           console.log("err", error);
           if (error) {
+            this.PageLoading = false;
             this.error = "Error";
             this.icon = "mdi-alert";
             this.snackbarText = "Email or password incorrect!";

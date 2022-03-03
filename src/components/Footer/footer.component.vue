@@ -1,7 +1,7 @@
 <template>
-  <v-footer padless>
+  <v-footer padless fixed app>
     <v-row no-gutters>
-      <v-col cols="12" sm="6" md="4" lg="4">
+      <v-col cols="12" sm="6" md="4" lg="4" xs="4">
         <v-card
           height="100%"
           color="rgba(10, 54, 63, 1)"
@@ -12,11 +12,11 @@
         >
           About us
           <v-spacer></v-spacer>
-          We are just a team of devolopers looking for a place when we create a
+          We are just a team of developers looking for a place when we create a
           state of mind full of dream and creation
         </v-card>
       </v-col>
-      <v-col cols="12" sm="6" md="4" lg="4">
+      <v-col cols="12" sm="6" md="4" lg="4" xs="4">
         <v-card
           height="100%"
           color="rgba(10, 54, 63, 1)"
@@ -30,7 +30,7 @@
           Avenue Quods Radés Madina + 216 99 999 999 isetrades@gmail.com
         </v-card>
       </v-col>
-      <v-col cols="12" sm="6" md="4" lg="4">
+      <v-col cols="12" sm="12" md="4" lg="4" xs="4">
         <v-card
           height="100%"
           style="background-color: rgba(10, 54, 63, 1)"
@@ -46,8 +46,8 @@
           <v-icon>mdi-gmail</v-icon>
         </v-card>
       </v-col>
-      <v-divider></v-divider>
-      <v-col cols="12" sm="6" md="12" lg="12">
+      <!-- <v-divider></v-divider> -->
+      <!-- <v-col cols="12" sm="6" md="12" lg="12" xs="4">
         <v-card
           class="pa-2 text-center"
           outlined
@@ -59,7 +59,7 @@
           <v-spacer> </v-spacer>
           © All Rights Reserved 2022
         </v-card>
-      </v-col>
+      </v-col> -->
     </v-row>
   </v-footer>
 </template>

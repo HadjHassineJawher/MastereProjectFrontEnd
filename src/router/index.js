@@ -34,6 +34,7 @@ const routes = [
     component: SignIn,
     meta: {
       hideNavigation: true,
+      hideFooter: true,
     },
   },
   {
@@ -54,6 +55,7 @@ const routes = [
     component: SignUp,
     meta: {
       hideNavigation: true,
+      hideFooter: true,
     },
   },
   {

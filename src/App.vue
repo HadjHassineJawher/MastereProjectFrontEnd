@@ -78,7 +78,7 @@
         </div>
       </template>
     </v-navigation-drawer>
-    <v-main class="containerBox">
+    <v-main>
       <router-view />
     </v-main>
     <Footer v-if="!$route.meta.hideFooter" />

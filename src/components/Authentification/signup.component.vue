@@ -4,6 +4,17 @@
       <v-container>
         <v-card>
           <v-row align="center" justify="center">
+            <v-col class="text-center" v-if="PageLoading" cols="12">
+              <div>
+                <v-progress-linear
+                  :size="50"
+                  :width="5"
+                  :active="PageLoading"
+                  color="amber"
+                  :indeterminate="PageLoading"
+                ></v-progress-linear>
+              </div>
+            </v-col>
             <v-col cols="5" sm="5" md="5" lg="5">
               <v-img
                 class="white--text align-end"
@@ -132,6 +143,7 @@ import { Register } from "../APIS/AuthApi";
 export default {
   name: "SignUp",
   data: () => ({
+    PageLoading: false,
     color: "success",
     snackbar: false,
     icon: "",
@@ -174,7 +186,7 @@ export default {
     Register() {
       if (this.$refs.form.validate()) {
         this.phoneNumber = this.country + this.phoneNumber;
-
+        this.PageLoading = true;
         Register({
           firstName: this.firstName,
           lastName: this.lastName,
@@ -197,6 +209,7 @@ export default {
               this.snackbarText = "Email already exists!";
               this.color = "red";
               this.snackbar = true;
+              this.PageLoading = false;
             }
           });
       }
