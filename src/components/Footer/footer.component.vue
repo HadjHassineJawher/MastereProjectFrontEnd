@@ -1,5 +1,5 @@
 <template>
-  <v-footer padless fixed app>
+  <v-footer padless>
     <v-row no-gutters>
       <v-col cols="12" sm="6" md="4" lg="4" xs="4">
         <v-card
