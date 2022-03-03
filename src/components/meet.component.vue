@@ -9,9 +9,9 @@
         </v-col>
         <v-col cols="3" class="chat_container">
           <Chat
-            :room="ROOM_ID"
-            :username="currentUser.LastName"
-            :socketIo="socketIo"
+            :room=ROOM_ID
+            :username=currentUser.LastName
+            :socketIo=socketIo
           />
         </v-col>
       </v-row>
@@ -72,7 +72,7 @@ export default {
   name: "Meet",
   data() {
     return {
-      fullName: currentUser.FirstName + "" + currentUser.LastName,
+      //fullName: currentUser.FirstName + "" + currentUser.LastName,
       socketIo: "",
       videoGrid: "",
       title: "",
@@ -91,8 +91,6 @@ export default {
 
   mounted() {
     this.socketIo = socket;
-    // console.log("from meet",this.socketIo)
-
     this.videoGrid = this.$refs.video_grid;
     this.ROOM_ID = this.$route.params.idMeet;
     this.video_button = this.$refs.video_button;

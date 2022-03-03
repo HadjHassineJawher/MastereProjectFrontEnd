@@ -98,7 +98,6 @@ export default {
   methods: {
     async getSingleEevent() {
       this.eventDetails = await getEventById(this.$route.params.id);
-      console.log("hello");
       this.planningList = this.eventDetails.sessions;
     },
     goToMeet() {

@@ -199,36 +199,14 @@ export default {
           this.dataUser
         )
         .then((res) => {
-          console.log("Ree", res);
+        
           this.v = false;
           this.icon = "mdi-check-circle-outline";
           this.snackbarText = "Your data got updated.";
           this.color = "success";
           this.snackbar = true;
         });
-      // this.$store
-      //   .dispatch("updateProfileUserAction", this.dataUser)
-      //   .then((response) => {
-      //     if (response) {
-      //       this.v = false;
-      //       this.icon = "mdi-check-circle-outline";
-      //       this.snackbarText = "Your data got updated.";
-      //       this.color = "success";
-      //       this.snackbar = true;
-      //     }
-      //   })
-      //   .catch((error) => {
-      //   console.log("error in profile : ", error);
-      //   if (error) {
-      //     if (error.status === 400) {
-      //       this.error = "Error";
-      //     }
-      //     this.icon = "mdi-alert";
-      //     this.snackbarText = error.errors;
-      //     this.color = "red";
-      //     this.snackbar = true;
-      //   }
-      // });
+     
     },
     nameAvatar(currentUserData) {
       if (currentUserData) {

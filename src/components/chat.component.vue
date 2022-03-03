@@ -75,8 +75,9 @@ export default {
   mounted() {
     this.$nextTick(function () {
       this.receiveMessage();
+      this.listener();
     });
-    this.listener();
+    
   },
 };
 </script>

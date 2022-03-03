@@ -140,7 +140,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log("err", error);
+          
           if (error) {
             this.PageLoading = false;
             this.error = "Error";
